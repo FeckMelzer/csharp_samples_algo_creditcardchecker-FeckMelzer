@@ -54,10 +54,13 @@ namespace CreditCardChecker
         /// </summary>
         private static int CalculateDigitSum(int number)
         {
-            string temp = number.ToString();
-
-            if(temp.Length.Equals(2))return (ConvertToInt(temp[0])) + (ConvertToInt(temp[1]));
-            return ConvertToInt(temp[0]);
+            int digitsum = 0;
+            while(number > 0)
+            {
+                digitsum += number % 10;
+                number /= 10;
+            }
+            return digitsum;
         }
 
         private static int ConvertToInt(char ch)
