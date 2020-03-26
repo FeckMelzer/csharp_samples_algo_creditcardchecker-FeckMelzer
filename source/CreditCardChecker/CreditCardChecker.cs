@@ -10,7 +10,29 @@ namespace CreditCardChecker
         /// </summary>
         public static bool IsCreditCardValid(string creditCardNumber)
         {
-            throw new NotImplementedException();
+            if (creditCardNumber.Length != 16) return false;
+            
+
+            int sumEven = 0;
+           
+            for (int i = 0; i % 2 == 0 && i < 16; i++)
+            {
+                if (!Char.IsDigit(creditCardNumber[i])) return false;
+                if (ConvertToInt(creditCardNumber[i]) * 2 < 10) sumEven += ConvertToInt(creditCardNumber[i]);
+                else sumEven += CalculateDigitSum(ConvertToInt(creditCardNumber[i]));
+            }
+
+            int sumOdd = 0;
+            for(int i = 0; i % 2 != 0 && i < 16; i++)
+            {
+                if (!Char.IsDigit(creditCardNumber[i])) return false;
+                if (i != 14)sumOdd += ConvertToInt(creditCardNumber[i]);
+            }
+
+            if (CalculateCheckDigit(sumOdd, sumEven).Equals(ConvertToInt(creditCardNumber[14]))) return true;
+
+            return false;
+
         }
 
         /// <summary>
@@ -19,7 +41,14 @@ namespace CreditCardChecker
         /// </summary>
         private static int CalculateCheckDigit(int oddSum, int evenSum)
         {
-            throw new NotImplementedException();
+            int check = oddSum + evenSum - 1;
+            do
+            {
+                check++;
+
+            } while (check % 10 != 0);
+
+            return (check - (oddSum + evenSum));
         }
 
         /// <summary>
@@ -27,12 +56,15 @@ namespace CreditCardChecker
         /// </summary>
         private static int CalculateDigitSum(int number)
         {
-            throw new NotImplementedException();
+            string temp = number.ToString();
+
+            if(temp.Length.Equals(2))return (ConvertToInt(temp[0])) + (ConvertToInt(temp[1]));
+            return ConvertToInt(temp[0]);
         }
 
         private static int ConvertToInt(char ch)
         {
-            throw new NotImplementedException();
+            return ch - '0';
         }
     }
 }
