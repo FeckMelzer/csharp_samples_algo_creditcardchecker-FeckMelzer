@@ -15,7 +15,7 @@ namespace CreditCardChecker
 
             int sumEven = 0;
            
-            for (int i = 0; i % 2 == 0 && i < 14; i++)
+            for (int i = 0; i % 2 == 0 && i < creditCardNumber.Length-1; i++)
             {
                 if (!Char.IsDigit(creditCardNumber[i])) return false;
                 
@@ -24,7 +24,7 @@ namespace CreditCardChecker
             }
 
             int sumOdd = 0;
-            for(int i = 0; i % 2 != 0 && i < 14; i++)
+            for(int i = 0; i % 2 != 0 && i < creditCardNumber.Length-1; i++)
             {
                 if (!Char.IsDigit(creditCardNumber[i])) return false;
                 sumOdd += ConvertToInt(creditCardNumber[i]);
