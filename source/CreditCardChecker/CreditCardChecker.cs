@@ -18,15 +18,16 @@ namespace CreditCardChecker
             for (int i = 0; i % 2 == 0 && i < 16; i++)
             {
                 if (!Char.IsDigit(creditCardNumber[i])) return false;
+                
                 if (ConvertToInt(creditCardNumber[i]) * 2 < 10) sumEven += ConvertToInt(creditCardNumber[i]);
-                else sumEven += CalculateDigitSum(ConvertToInt(creditCardNumber[i]));
+                else  sumEven += CalculateDigitSum(ConvertToInt(creditCardNumber[i]));
             }
 
             int sumOdd = 0;
             for(int i = 0; i % 2 != 0 && i < 16; i++)
             {
                 if (!Char.IsDigit(creditCardNumber[i])) return false;
-                if (i != 14)sumOdd += ConvertToInt(creditCardNumber[i]);
+                sumOdd += ConvertToInt(creditCardNumber[i]);
             }
 
             if (CalculateCheckDigit(sumOdd, sumEven).Equals(ConvertToInt(creditCardNumber[14]))) return true;
@@ -41,14 +42,11 @@ namespace CreditCardChecker
         /// </summary>
         private static int CalculateCheckDigit(int oddSum, int evenSum)
         {
-            int check = oddSum + evenSum - 1;
-            do
+            for (int i = 0; i < 9; i++)
             {
-                check++;
-
-            } while (check % 10 != 0);
-
-            return (check - (oddSum + evenSum));
+                if (((oddSum + evenSum) + i) % 10 == 0) return i;
+            }
+            return -1;
         }
 
         /// <summary>
